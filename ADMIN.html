@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🍕 Admin 400°C — Panneau de commandes</title>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --brick:      #8B3A1E;
+    --brick-dark: #5C2010;
+    --terra:      #C4623A;
+    --cream:      #F5EDD8;
+    --cream-dark: #EAD9B8;
+    --ash:        #1A0D06;
+    --ash-mid:    #2A1A0E;
+    --ash-light:  #3D1A0A;
+    --ember:      #E8763A;
+    --smoke:      #6B4D3A;
+    --gold:       #C8943A;
+    --green:      #6fcf97;
+    --red:        #eb5757;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ash);
+    color: var(--cream);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--ash-mid);
+    border-bottom: 2px solid rgba(200,148,58,0.3);
+    padding: 1.2rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .logo {
+    font-family: 'Shrikhand', cursive;
+    font-size: 1.8rem;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+  .logo span {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.5;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .live-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--green);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .live-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .btn {
+    background: rgba(200,148,58,0.12);
+    border: 1px solid rgba(200,148,58,0.3);
+    color: var(--gold);
+    padding: 0.55rem 1.2rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .btn:hover { background: rgba(200,148,58,0.25); transform: translateY(-1px); }
+
+  .btn-danger {
+    background: rgba(139,58,30,0.15);
+    border-color: rgba(235,87,87,0.3);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(235,87,87,0.2); }
+
+  .btn-export {
+    background: var(--terra);
+    border-color: var(--terra);
+    color: var(--cream);
+  }
+  .btn-export:hover { background: var(--brick); border-color: var(--brick); }
+
+  /* ── MAIN LAYOUT ── */
+  main { padding: 2rem 2.5rem; max-width: 1400px; margin: 0 auto; }
+
+  /* ── KPI CARDS ── */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .kpi-card {
+    background: var(--ash-mid);
+    border: 1px solid rgba(200,148,58,0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .kpi-card:hover { transform: translateY(-2px); border-color: rgba(200,148,58,0.3); }
+
+  .kpi-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.5;
+    font-weight: 600;
+  }
+  .kpi-value {
+    font-family: 'Shrikhand', cursive;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .kpi-sub { font-size: 0.85rem; opacity: 0.6; }
+
+  /* ── CRÉNEAUX ── */
+  .section-title {
+    font-family: 'Shrikhand', cursive;
+    font-size: 1.4rem;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .slots-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .slot-pill {
+    background: var(--ash-mid);
+    border: 1.5px solid rgba(200,148,58,0.15);
+    border-radius: 12px;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    min-width: 90px;
+    transition: transform 0.2s;
+  }
+  .slot-pill:hover { transform: translateY(-2px); }
+  .slot-time { font-weight: 700; font-size: 0.95rem; }
+  .slot-count { font-size: 0.8rem; font-weight: 600; }
+  .slot-bar-wrap {
+    width: 100%;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 0.2rem;
+  }
+  .slot-bar-fill {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease;
+  }
+
+  /* ── ORDERS TABLE ── */
+  .orders-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .orders-meta { font-size: 0.9rem; opacity: 0.5; }
+
+  .filter-row {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid rgba(200,148,58,0.2);
+    color: var(--cream);
+    opacity: 0.6;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: all 0.2s;
+  }
+  .filter-btn.active {
+    background: var(--terra);
+    border-color: var(--terra);
+    opacity: 1;
+    color: var(--cream);
+  }
+
+  .table-wrap {
+    background: var(--ash-mid);
+    border: 1px solid rgba(200,148,58,0.15);
+    border-radius: 20px;
+    overflow: hidden;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    min-width: 700px;
+  }
+
+  thead { background: rgba(200,148,58,0.08); }
+  th {
+    padding: 1rem 1.2rem;
+    text-align: left;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 1rem 1.2rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+    color: var(--cream);
+  }
+
+  tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .order-row-new td { border-left: 3px solid var(--green); }
+  .order-row-new td:first-child { padding-left: calc(1.2rem - 3px); }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .tag-heure { background: rgba(200,148,58,0.15); color: var(--gold); }
+  .tag-new { background: rgba(111,207,151,0.15); color: var(--green); border: 1px solid rgba(111,207,151,0.3); }
+
+  .items-list { display: flex; flex-direction: column; gap: 0.2rem; }
+  .item-line { font-size: 0.9rem; }
+  .item-qty { color: var(--gold); font-weight: 700; margin-right: 0.3rem; }
+
+  .total-cell { font-family: 'Shrikhand', cursive; font-size: 1.2rem; color: var(--gold); }
+  .notes-cell { font-size: 0.9rem; opacity: 0.6; font-style: italic; max-width: 200px; }
+  .date-cell { font-size: 0.8rem; opacity: 0.45; white-space: nowrap; }
+
+  .empty-state {
+    padding: 4rem 2rem;
+    text-align: center;
+    opacity: 0.35;
+    font-size: 1.1rem;
+  }
+  .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+  /* ── REFRESH TIMER ── */
+  .refresh-info {
+    font-size: 0.8rem;
+    opacity: 0.4;
+    text-align: right;
+    margin-top: 1.5rem;
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--terra);
+    color: var(--cream);
+    padding: 0.8rem 2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    transition: transform 0.3s ease;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    header { padding: 1rem; }
+    main { padding: 1.2rem 1rem; }
+    .logo span { display: none; }
+    .kpi-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    🍕 400°C
+    <span>— Panneau Admin Local</span>
+  </div>
+  <div class="header-right">
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      EN DIRECT
+    </div>
+    <button class="btn" onclick="refresh()">🔄 Actualiser</button>
+    <button class="btn btn-export" onclick="exportCSV()">⬇ CSV</button>
+    <button class="btn btn-danger" onclick="clearAll()">🗑 Effacer tout</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPIs -->
+  <div class="kpi-row" id="kpi-row"></div>
+
+  <!-- Créneaux -->
+  <div class="section-title">⏱ Créneaux du service</div>
+  <div class="slots-grid" id="slots-grid"></div>
+
+  <!-- Filtres + tableau -->
+  <div class="orders-header">
+    <div>
+      <div class="section-title" style="margin-bottom:0.3rem">📋 Commandes</div>
+      <div class="orders-meta" id="orders-meta"></div>
+    </div>
+    <div class="filter-row" id="filter-row"></div>
+  </div>
+
+  <div class="table-wrap">
+    <div id="table-container"></div>
+  </div>
+
+  <div class="refresh-info" id="refresh-info"></div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyANYxGjPjgTpT2WOa7M574TXdHqifhKD4U",
+  authDomain: "pizzeria-400c.firebaseapp.com",
+  databaseURL: "https://pizzeria-400c-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "pizzeria-400c",
+  storageBucket: "pizzeria-400c.firebasestorage.app",
+  messagingSenderId: "966451479772",
+  appId: "1:966451479772:web:4bbe490483fbe75a0b2019"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+  let allOrders = [];
+
+  onValue(ref(db, 'orders'), (snapshot) => {
+    allOrders = Object.values(snapshot.val() || {});
+    renderAll();
+  });
+
+  const MAX_PER_SLOT = 10;
+  const REFRESH_INTERVAL = 30000; // 30s
+
+  const PIZZA_IDS = new Set([
+    'burrata_gold',
+    'margherita','marinara','napoli','quattro_stagioni','diavola','prosciutto',
+    'tartufo','nduja','burrata','figues',
+    'bianca','salmone','spinaci','funghi'
+  ]);
+
+  function generateSlots() {
+    const slots = [];
+    for (let h = 18; h <= 21; h++) {
+      for (let m = 0; m < 60; m += 15) {
+        if (h === 21 && m > 0) break;
+        slots.push(`${h}h${m === 0 ? '00' : m}`);
+      }
+    }
+    return slots;
+  }
+  const ALL_SLOTS = generateSlots();
+
+
+  function getPizzasForSlot(orders, slot) {
+    return orders
+      .filter(o => o.heure === slot)
+      .reduce((t, o) => t + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((s, i) => s + i.qty, 0), 0);
+  }
+
+  let activeFilter = 'all';
+  let knownIds = new Set();
+
+  function renderAll() {
+    const orders = allOrders;
+
+    // Track new orders
+    const newIds = new Set(orders.map(o => String(o.id)));
+    const freshIds = new Set([...newIds].filter(id => !knownIds.has(id)));
+    if (knownIds.size > 0 && freshIds.size > 0) {
+      showToast(`🍕 ${freshIds.size} nouvelle${freshIds.size > 1 ? 's' : ''} commande${freshIds.size > 1 ? 's' : ''} !`);
+    }
+    knownIds = newIds;
+
+    renderKPIs(orders);
+    renderSlots(orders);
+    renderTable(orders, freshIds);
+
+    const now = new Date();
+    document.getElementById('refresh-info').textContent =
+      `Dernière actualisation : ${now.toLocaleTimeString('fr-FR')} — Auto-refresh toutes les 30s`;
+  }
+
+  function renderKPIs(orders) {
+    const total = orders.reduce((s, o) => s + parseFloat(o.total || 0), 0);
+    const pizzaCount = orders.reduce((s, o) =>
+      s + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((ss, i) => ss + i.qty, 0), 0);
+    const slotsUsed = ALL_SLOTS.filter(s => getPizzasForSlot(orders, s) > 0).length;
+
+    document.getElementById('kpi-row').innerHTML = `
+      <div class="kpi-card">
+        <span class="kpi-label">Commandes</span>
+        <span class="kpi-value">${orders.length}</span>
+        <span class="kpi-sub">ce soir</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Pizzas totales</span>
+        <span class="kpi-value">${pizzaCount}</span>
+        <span class="kpi-sub">à préparer</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Chiffre d'affaires</span>
+        <span class="kpi-value">${total.toFixed(0)}€</span>
+        <span class="kpi-sub">${total.toFixed(2).replace('.', ',')} €</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Créneaux actifs</span>
+        <span class="kpi-value">${slotsUsed}</span>
+        <span class="kpi-sub">sur ${ALL_SLOTS.length} possibles</span>
+      </div>
+    `;
+  }
+
+  function renderSlots(orders) {
+    document.getElementById('slots-grid').innerHTML = ALL_SLOTS.map(slot => {
+      const used = getPizzasForSlot(orders, slot);
+      const pct  = Math.min(100, Math.round((used / MAX_PER_SLOT) * 100));
+      const color = used >= MAX_PER_SLOT ? 'var(--red)' : used >= 7 ? 'var(--gold)' : used > 0 ? 'var(--green)' : 'rgba(255,255,255,0.15)';
+      return `
+        <div class="slot-pill" style="border-color:${color}40">
+          <span class="slot-time" style="color:${color}">${slot}</span>
+          <span class="slot-count" style="color:${color}">${used}/${MAX_PER_SLOT}</span>
+          <div class="slot-bar-wrap">
+            <div class="slot-bar-fill" style="width:${pct}%;background:${color}"></div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderTable(orders, freshIds = new Set()) {
+    // Build filter buttons from unique slots used
+    const usedSlots = [...new Set(orders.map(o => o.heure))].sort();
+    const filterRow = document.getElementById('filter-row');
+    filterRow.innerHTML = [
+      `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">Tous (${orders.length})</button>`,
+      ...usedSlots.map(s => {
+        const cnt = orders.filter(o => o.heure === s).length;
+        return `<button class="filter-btn ${activeFilter === s ? 'active' : ''}" onclick="setFilter('${s}')">${s} (${cnt})</button>`;
+      })
+    ].join('');
+
+    const filtered = activeFilter === 'all' ? orders : orders.filter(o => o.heure === activeFilter);
+    const sorted = [...filtered].sort((a, b) => a.heure.localeCompare(b.heure));
+
+    document.getElementById('orders-meta').textContent =
+      activeFilter === 'all'
+        ? `${orders.length} commande${orders.length !== 1 ? 's' : ''} au total`
+        : `${filtered.length} commande${filtered.length !== 1 ? 's' : ''} pour le créneau ${activeFilter}`;
+
+    const container = document.getElementById('table-container');
+
+    if (sorted.length === 0) {
+      container.innerHTML = `<div class="empty-state">
+        <span class="emoji">🍕</span>
+        Aucune commande pour l'instant.<br>Le site client est ouvert dans l'autre onglet ?
+      </div>`;
+      return;
+    }
+
+    container.innerHTML = `
+      <table>
+        <thead>
+          <tr>
+            <th>Créneau</th>
+            <th>Client</th>
+            <th>Téléphone</th>
+            <th>Commande</th>
+            <th>Total</th>
+            <th>Notes</th>
+            <th>Passée le</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sorted.map(o => {
+            const isNew = freshIds.has(String(o.id));
+            return `
+              <tr class="${isNew ? 'order-row-new' : ''}">
+                <td>
+                  <span class="tag tag-heure">${o.heure}</span>
+                  ${isNew ? '<span class="tag tag-new" style="margin-left:0.4rem">NEW</span>' : ''}
+                </td>
+                <td><strong>${o.prenom} ${o.nom}</strong></td>
+                <td>
+                  <a href="tel:${o.tel.replace(/\s/g,'')}" style="color:var(--cream);text-decoration:none;opacity:0.85">
+                    ${o.tel}
+                  </a>
+                </td>
+                <td>
+                  <div class="items-list">
+                    ${o.items.map(i => `<span class="item-line"><span class="item-qty">${i.qty}×</span>${i.name}</span>`).join('')}
+                  </div>
+                </td>
+                <td class="total-cell">${o.total} €</td>
+                <td class="notes-cell">${o.notes || '—'}</td>
+                <td class="date-cell">${o.date}</td>
+              </tr>`;
+          }).join('')}
+        </tbody>
+      </table>`;
+  }
+
+  function setFilter(val) {
+    activeFilter = val;
+    renderAll();
+  }
+
+  function refresh() {
+    renderAll();
+    showToast('✓ Actualisé');
+  }
+
+  function exportCSV() {
+    const orders = allOrders;
+    if (orders.length === 0) { showToast('Aucune commande à exporter'); return; }
+
+    const headers = ['ID','Date commande','Créneau','Prénom','Nom','Téléphone','Commande','Total (€)','Notes'];
+    const rows = orders.map(o => [
+      o.id,
+      `"${o.date}"`,
+      o.heure,
+      o.prenom,
+      o.nom,
+      o.tel,
+      `"${o.items.map(i => `${i.qty}x ${i.name}`).join(' | ')}"`,
+      o.total,
+      `"${(o.notes||'').replace(/"/g,'\\"')}"`
+    ]);
+
+    const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `commandes_400C_${new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast('⬇ Export CSV lancé');
+  }
+
+  async function clearAll() {
+    if (!confirm('⚠️ Effacer TOUTES les commandes ?\nCette action est irréversible.')) return;
+    await set(ref(db, 'orders'), null);
+    showToast('🗑 Commandes effacées');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  // Expose aux onclick HTML (nécessaire avec type="module")
+  window.refresh    = refresh;
+  window.exportCSV  = exportCSV;
+  window.clearAll   = clearAll;
+  window.setFilter  = setFilter;
+
+  // Firebase onValue gère le temps réel automatiquement
+</script>
+</body>
+</html>
