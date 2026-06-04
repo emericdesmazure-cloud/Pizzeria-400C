@@ -10,392 +10,287 @@
 
   :root {
     --brick:      #8B3A1E;
-    --brick-dark: #5C2010;
     --terra:      #C4623A;
     --cream:      #F5EDD8;
-    --cream-dark: #EAD9B8;
     --ash:        #1A0D06;
     --ash-mid:    #2A1A0E;
     --ash-light:  #3D1A0A;
-    --ember:      #E8763A;
-    --smoke:      #6B4D3A;
     --gold:       #C8943A;
     --green:      #6fcf97;
     --red:        #eb5757;
+    --blue:       #56a3d9;
   }
 
   html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--ash);
-    color: var(--cream);
-    font-family: 'Outfit', sans-serif;
-    min-height: 100vh;
-  }
+  body { background: var(--ash); color: var(--cream); font-family: 'Outfit', sans-serif; min-height: 100vh; }
 
   /* ── HEADER ── */
   header {
     background: var(--ash-mid);
     border-bottom: 2px solid rgba(200,148,58,0.3);
-    padding: 1.2rem 2.5rem;
+    padding: 1rem 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 100;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
+  .logo { font-family: 'Shrikhand', cursive; font-size: 1.6rem; color: var(--gold); display: flex; align-items: center; gap: 0.6rem; }
+  .logo span { font-family: 'Outfit', sans-serif; font-size: 0.85rem; color: var(--cream); opacity: 0.4; font-weight: 400; }
+  .header-right { display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap; }
+  .live-badge { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--green); font-weight: 600; letter-spacing: 0.05em; }
+  .live-dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
 
-  .logo {
-    font-family: 'Shrikhand', cursive;
-    font-size: 1.8rem;
-    color: var(--gold);
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-  }
-  .logo span {
-    font-family: 'Outfit', sans-serif;
-    font-size: 0.9rem;
-    color: var(--cream);
-    opacity: 0.5;
-    font-weight: 400;
-    letter-spacing: 0.05em;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 1.2rem;
-  }
-
-  .live-badge {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.85rem;
-    color: var(--green);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-  }
-  .live-dot {
-    width: 8px; height: 8px;
-    background: var(--green);
-    border-radius: 50%;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.8); }
-  }
-
-  .btn {
-    background: rgba(200,148,58,0.12);
-    border: 1px solid rgba(200,148,58,0.3);
-    color: var(--gold);
-    padding: 0.55rem 1.2rem;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    transition: all 0.2s;
-  }
+  .btn { background: rgba(200,148,58,0.12); border: 1px solid rgba(200,148,58,0.3); color: var(--gold); padding: 0.5rem 1.1rem; border-radius: 999px; cursor: pointer; font-size: 0.85rem; font-family: 'Outfit', sans-serif; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
   .btn:hover { background: rgba(200,148,58,0.25); transform: translateY(-1px); }
-
-  .btn-danger {
-    background: rgba(139,58,30,0.15);
-    border-color: rgba(235,87,87,0.3);
-    color: var(--red);
-  }
+  .btn-danger { background: rgba(139,58,30,0.15); border-color: rgba(235,87,87,0.3); color: var(--red); }
   .btn-danger:hover { background: rgba(235,87,87,0.2); }
-
-  .btn-export {
-    background: var(--terra);
-    border-color: var(--terra);
-    color: var(--cream);
-  }
+  .btn-export { background: var(--terra); border-color: var(--terra); color: var(--cream); }
   .btn-export:hover { background: var(--brick); border-color: var(--brick); }
 
-  /* ── MAIN LAYOUT ── */
-  main { padding: 2rem 2.5rem; max-width: 1400px; margin: 0 auto; }
+  /* ── VIEW TOGGLE ── */
+  .view-toggle { display: flex; background: rgba(0,0,0,0.3); border: 1px solid rgba(200,148,58,0.2); border-radius: 999px; overflow: hidden; }
+  .view-btn { background: transparent; border: none; color: var(--cream); opacity: 0.5; padding: 0.45rem 1rem; cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; transition: all 0.2s; white-space: nowrap; }
+  .view-btn.active { background: var(--terra); opacity: 1; color: var(--cream); }
+
+  /* ── MAIN ── */
+  main { padding: 1.8rem 2rem; max-width: 1600px; margin: 0 auto; }
 
   /* ── KPI CARDS ── */
-  .kpi-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.2rem;
-    margin-bottom: 2.5rem;
-  }
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+  .kpi-card { background: var(--ash-mid); border: 1px solid rgba(200,148,58,0.15); border-radius: 14px; padding: 1.2rem 1.4rem; transition: transform 0.2s, border-color 0.2s; }
+  .kpi-card:hover { transform: translateY(-2px); border-color: rgba(200,148,58,0.3); }
+  .kpi-label { font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--cream); opacity: 0.45; font-weight: 600; display: block; margin-bottom: 0.3rem; }
+  .kpi-value { font-family: 'Shrikhand', cursive; font-size: 2rem; color: var(--gold); line-height: 1; display: block; }
+  .kpi-sub { font-size: 0.8rem; opacity: 0.5; display: block; margin-top: 0.2rem; }
 
-  .kpi-card {
+  /* ── SECTION TITLE ── */
+  .section-title { font-family: 'Shrikhand', cursive; font-size: 1.3rem; color: var(--gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+
+  /* ── SLOTS GRID ── */
+  .slots-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 2rem; }
+  .slot-pill { background: var(--ash-mid); border: 1.5px solid rgba(200,148,58,0.15); border-radius: 12px; padding: 0.55rem 1rem; font-size: 0.88rem; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; min-width: 80px; cursor: pointer; transition: transform 0.2s, border-color 0.2s; }
+  .slot-pill:hover { transform: translateY(-2px); }
+  .slot-pill.selected { border-color: var(--gold); background: rgba(200,148,58,0.1); }
+  .slot-time { font-weight: 700; font-size: 0.92rem; }
+  .slot-count { font-size: 0.78rem; font-weight: 600; }
+  .slot-bar-wrap { width: 100%; height: 3px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin-top: 0.15rem; }
+  .slot-bar-fill { height: 100%; border-radius: 999px; transition: width 0.5s ease; }
+
+  /* ═══════════════════════════════
+     VUE TABLEAU (list)
+  ═══════════════════════════════ */
+  #view-list { display: block; }
+  #view-kanban { display: none; }
+
+  .orders-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.8rem; }
+  .orders-meta { font-size: 0.88rem; opacity: 0.45; }
+  .filter-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .filter-btn { background: transparent; border: 1px solid rgba(200,148,58,0.2); color: var(--cream); opacity: 0.55; padding: 0.35rem 0.9rem; border-radius: 999px; cursor: pointer; font-size: 0.82rem; font-family: 'Outfit', sans-serif; font-weight: 600; transition: all 0.2s; }
+  .filter-btn.active { background: var(--terra); border-color: var(--terra); opacity: 1; }
+
+  .table-wrap { background: var(--ash-mid); border: 1px solid rgba(200,148,58,0.15); border-radius: 18px; overflow: hidden; overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; min-width: 750px; }
+  thead { background: rgba(200,148,58,0.07); }
+  th { padding: 0.9rem 1.1rem; text-align: left; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); font-weight: 700; white-space: nowrap; }
+  td { padding: 0.9rem 1.1rem; border-top: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  .order-row-new td { border-left: 3px solid var(--green); }
+
+  .tag { display: inline-block; font-size: 0.72rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .tag-heure { background: rgba(200,148,58,0.15); color: var(--gold); }
+  .tag-new   { background: rgba(111,207,151,0.15); color: var(--green); border: 1px solid rgba(111,207,151,0.3); }
+
+  .items-list { display: flex; flex-direction: column; gap: 0.18rem; }
+  .item-line { font-size: 0.88rem; }
+  .item-qty { color: var(--gold); font-weight: 700; margin-right: 0.25rem; }
+  .total-cell { font-family: 'Shrikhand', cursive; font-size: 1.15rem; color: var(--gold); }
+  .notes-cell { font-size: 0.85rem; opacity: 0.55; font-style: italic; max-width: 180px; }
+  .date-cell { font-size: 0.78rem; opacity: 0.4; white-space: nowrap; }
+
+  /* ── STATUS TOGGLES ── */
+  .status-cell { display: flex; flex-direction: column; gap: 0.4rem; }
+  .status-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    white-space: nowrap;
+    user-select: none;
+    width: fit-content;
+  }
+  .status-toggle .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  /* Fait */
+  .toggle-fait-off { background: rgba(235,87,87,0.1); border-color: rgba(235,87,87,0.25); color: #eb5757; }
+  .toggle-fait-off .dot { background: #eb5757; }
+  .toggle-fait-off:hover { background: rgba(235,87,87,0.2); }
+  .toggle-fait-on  { background: rgba(111,207,151,0.15); border-color: rgba(111,207,151,0.35); color: var(--green); }
+  .toggle-fait-on  .dot { background: var(--green); }
+  .toggle-fait-on:hover { background: rgba(111,207,151,0.25); }
+
+  /* Payé */
+  .toggle-paye-off { background: rgba(200,148,58,0.08); border-color: rgba(200,148,58,0.2); color: rgba(200,148,58,0.6); }
+  .toggle-paye-off .dot { background: rgba(200,148,58,0.5); }
+  .toggle-paye-off:hover { background: rgba(200,148,58,0.15); }
+  .toggle-paye-on  { background: rgba(86,163,217,0.15); border-color: rgba(86,163,217,0.35); color: var(--blue); }
+  .toggle-paye-on  .dot { background: var(--blue); }
+  .toggle-paye-on:hover { background: rgba(86,163,217,0.25); }
+
+  /* ═══════════════════════════════
+     VUE KANBAN PAR CRÉNEAUX
+  ═══════════════════════════════ */
+  .kanban-board {
+    display: flex;
+    gap: 1.2rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    align-items: flex-start;
+  }
+  .kanban-col {
     background: var(--ash-mid);
     border: 1px solid rgba(200,148,58,0.15);
-    border-radius: 16px;
-    padding: 1.5rem;
+    border-radius: 18px;
+    min-width: 300px;
+    max-width: 330px;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    transition: transform 0.2s, border-color 0.2s;
-  }
-  .kpi-card:hover { transform: translateY(-2px); border-color: rgba(200,148,58,0.3); }
-
-  .kpi-label {
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--cream);
-    opacity: 0.5;
-    font-weight: 600;
-  }
-  .kpi-value {
-    font-family: 'Shrikhand', cursive;
-    font-size: 2.2rem;
-    color: var(--gold);
-    line-height: 1;
-  }
-  .kpi-sub { font-size: 0.85rem; opacity: 0.6; }
-
-  /* ── CRÉNEAUX ── */
-  .section-title {
-    font-family: 'Shrikhand', cursive;
-    font-size: 1.4rem;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-  }
-
-  .slots-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-    margin-bottom: 2.5rem;
-  }
-
-  .slot-pill {
-    background: var(--ash-mid);
-    border: 1.5px solid rgba(200,148,58,0.15);
-    border-radius: 12px;
-    padding: 0.6rem 1.1rem;
-    font-size: 0.9rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.3rem;
-    min-width: 90px;
-    transition: transform 0.2s;
-  }
-  .slot-pill:hover { transform: translateY(-2px); }
-  .slot-time { font-weight: 700; font-size: 0.95rem; }
-  .slot-count { font-size: 0.8rem; font-weight: 600; }
-  .slot-bar-wrap {
-    width: 100%;
-    height: 4px;
-    background: rgba(255,255,255,0.08);
-    border-radius: 999px;
     overflow: hidden;
-    margin-top: 0.2rem;
   }
-  .slot-bar-fill {
-    height: 100%;
-    border-radius: 999px;
-    transition: width 0.5s ease;
-  }
-
-  /* ── ORDERS TABLE ── */
-  .orders-header {
+  .kanban-col-header {
+    padding: 1rem 1.2rem 0.8rem;
+    border-bottom: 1px solid rgba(200,148,58,0.12);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 1.2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  .orders-meta { font-size: 0.9rem; opacity: 0.5; }
-
-  .filter-row {
-    display: flex;
-    gap: 0.6rem;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    background: transparent;
-    border: 1px solid rgba(200,148,58,0.2);
-    color: var(--cream);
-    opacity: 0.6;
-    padding: 0.4rem 1rem;
-    border-radius: 999px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: 'Outfit', sans-serif;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    transition: all 0.2s;
-  }
-  .filter-btn.active {
-    background: var(--terra);
-    border-color: var(--terra);
-    opacity: 1;
-    color: var(--cream);
-  }
-
-  .table-wrap {
+    position: sticky;
+    top: 0;
     background: var(--ash-mid);
-    border: 1px solid rgba(200,148,58,0.15);
-    border-radius: 20px;
-    overflow: hidden;
-    overflow-x: auto;
+    z-index: 10;
   }
+  .kanban-slot-name { font-family: 'Shrikhand', cursive; font-size: 1.4rem; }
+  .kanban-col-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 0.2rem; }
+  .kanban-pizza-count { font-size: 0.78rem; opacity: 0.5; }
+  .kanban-progress { display: flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; font-weight: 600; }
+  .kanban-progress-bar { width: 50px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
+  .kanban-progress-fill { height: 100%; border-radius: 999px; }
 
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.95rem;
-    min-width: 700px;
+  .kanban-cards { padding: 0.8rem; display: flex; flex-direction: column; gap: 0.7rem; max-height: 70vh; overflow-y: auto; }
+  .kanban-cards::-webkit-scrollbar { width: 4px; }
+  .kanban-cards::-webkit-scrollbar-track { background: transparent; }
+  .kanban-cards::-webkit-scrollbar-thumb { background: rgba(200,148,58,0.2); border-radius: 999px; }
+
+  .kanban-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(200,148,58,0.12);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.2s;
+    position: relative;
   }
+  .kanban-card:hover { border-color: rgba(200,148,58,0.3); background: rgba(255,255,255,0.045); }
+  .kanban-card.is-done { opacity: 0.55; }
+  .kanban-card.is-new { border-left: 3px solid var(--green); }
 
-  thead { background: rgba(200,148,58,0.08); }
-  th {
-    padding: 1rem 1.2rem;
-    text-align: left;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 700;
-    white-space: nowrap;
-  }
+  .kanban-card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.7rem; gap: 0.5rem; }
+  .kanban-client-name { font-weight: 700; font-size: 1rem; }
+  .kanban-client-tel { font-size: 0.82rem; opacity: 0.5; margin-top: 0.1rem; }
 
-  td {
-    padding: 1rem 1.2rem;
-    border-top: 1px solid rgba(255,255,255,0.04);
-    vertical-align: middle;
-    color: var(--cream);
-  }
+  .kanban-items { display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.8rem; }
+  .kanban-item { font-size: 0.88rem; display: flex; gap: 0.3rem; }
+  .kanban-item-qty { color: var(--gold); font-weight: 700; flex-shrink: 0; }
 
-  tr:hover td { background: rgba(255,255,255,0.02); }
+  .kanban-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+  .kanban-total { font-family: 'Shrikhand', cursive; font-size: 1.1rem; color: var(--gold); }
+  .kanban-statuses { display: flex; gap: 0.4rem; }
+  .kanban-notes { font-size: 0.8rem; opacity: 0.5; font-style: italic; margin-top: 0.4rem; }
 
-  .order-row-new td { border-left: 3px solid var(--green); }
-  .order-row-new td:first-child { padding-left: calc(1.2rem - 3px); }
+  .kanban-empty { padding: 2rem 1rem; text-align: center; opacity: 0.3; font-size: 0.95rem; }
 
-  .tag {
-    display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.2rem 0.7rem;
-    border-radius: 999px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .tag-heure { background: rgba(200,148,58,0.15); color: var(--gold); }
-  .tag-new { background: rgba(111,207,151,0.15); color: var(--green); border: 1px solid rgba(111,207,151,0.3); }
+  /* ── EMPTY STATE ── */
+  .empty-state { padding: 3.5rem 2rem; text-align: center; opacity: 0.3; font-size: 1rem; }
+  .empty-state .emoji { font-size: 2.5rem; display: block; margin-bottom: 0.8rem; }
 
-  .items-list { display: flex; flex-direction: column; gap: 0.2rem; }
-  .item-line { font-size: 0.9rem; }
-  .item-qty { color: var(--gold); font-weight: 700; margin-right: 0.3rem; }
-
-  .total-cell { font-family: 'Shrikhand', cursive; font-size: 1.2rem; color: var(--gold); }
-  .notes-cell { font-size: 0.9rem; opacity: 0.6; font-style: italic; max-width: 200px; }
-  .date-cell { font-size: 0.8rem; opacity: 0.45; white-space: nowrap; }
-
-  .empty-state {
-    padding: 4rem 2rem;
-    text-align: center;
-    opacity: 0.35;
-    font-size: 1.1rem;
-  }
-  .empty-state .emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
-
-  /* ── REFRESH TIMER ── */
-  .refresh-info {
-    font-size: 0.8rem;
-    opacity: 0.4;
-    text-align: right;
-    margin-top: 1.5rem;
-  }
+  .refresh-info { font-size: 0.78rem; opacity: 0.35; text-align: right; margin-top: 1.2rem; }
 
   /* ── TOAST ── */
-  .toast {
-    position: fixed;
-    bottom: 2rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: var(--terra);
-    color: var(--cream);
-    padding: 0.8rem 2rem;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 1rem;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
-    transition: transform 0.3s ease;
-    z-index: 999;
-    white-space: nowrap;
-  }
+  .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--terra); color: var(--cream); padding: 0.7rem 1.8rem; border-radius: 999px; font-weight: 600; font-size: 0.95rem; box-shadow: 0 8px 30px rgba(0,0,0,0.5); transition: transform 0.3s ease; z-index: 999; white-space: nowrap; }
   .toast.show { transform: translateX(-50%) translateY(0); }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 700px) {
-    header { padding: 1rem; }
-    main { padding: 1.2rem 1rem; }
+    header { padding: 0.8rem 1rem; }
+    main { padding: 1rem; }
     .logo span { display: none; }
     .kpi-row { grid-template-columns: 1fr 1fr; }
+    .kanban-col { min-width: 270px; }
   }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">
-    🍕 400°C
-    <span>— Panneau Admin Local</span>
-  </div>
+  <div class="logo">🍕 400°C <span>— Admin</span></div>
   <div class="header-right">
-    <div class="live-badge">
-      <div class="live-dot"></div>
-      EN DIRECT
+    <div class="live-badge"><div class="live-dot"></div>EN DIRECT</div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="btn-list" onclick="setView('list')">📋 Tableau</button>
+      <button class="view-btn" id="btn-kanban" onclick="setView('kanban')">🗂 Créneaux</button>
     </div>
-    <button class="btn" onclick="refresh()">🔄 Actualiser</button>
+    <button class="btn" onclick="refresh()">🔄</button>
     <button class="btn btn-export" onclick="exportCSV()">⬇ CSV</button>
-    <button class="btn btn-danger" onclick="clearAll()">🗑 Effacer tout</button>
+    <button class="btn btn-danger" onclick="clearAll()">🗑 Tout effacer</button>
   </div>
 </header>
 
 <main>
 
-  <!-- KPIs -->
   <div class="kpi-row" id="kpi-row"></div>
 
-  <!-- Créneaux -->
   <div class="section-title">⏱ Créneaux du service</div>
   <div class="slots-grid" id="slots-grid"></div>
 
-  <!-- Filtres + tableau -->
-  <div class="orders-header">
-    <div>
-      <div class="section-title" style="margin-bottom:0.3rem">📋 Commandes</div>
-      <div class="orders-meta" id="orders-meta"></div>
+  <!-- ═══ VUE TABLEAU ═══ -->
+  <div id="view-list">
+    <div class="orders-header">
+      <div>
+        <div class="section-title" style="margin-bottom:0.2rem">📋 Commandes</div>
+        <div class="orders-meta" id="orders-meta"></div>
+      </div>
+      <div class="filter-row" id="filter-row"></div>
     </div>
-    <div class="filter-row" id="filter-row"></div>
+    <div class="table-wrap">
+      <div id="table-container"></div>
+    </div>
   </div>
 
-  <div class="table-wrap">
-    <div id="table-container"></div>
+  <!-- ═══ VUE KANBAN ═══ -->
+  <div id="view-kanban">
+    <div class="section-title">🗂 Vue par créneaux horaires</div>
+    <div class="kanban-board" id="kanban-board"></div>
   </div>
 
   <div class="refresh-info" id="refresh-info"></div>
-
 </main>
 
 <div class="toast" id="toast"></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getDatabase, ref, onValue, set, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyANYxGjPjgTpT2WOa7M574TXdHqifhKD4U",
@@ -409,241 +304,329 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
 
-  let allOrders = [];
+const MAX_PER_SLOT = 10;
+const PIZZA_IDS = new Set([
+  'burrata_gold',
+  'margherita','marinara','napoli','quattro_stagioni','diavola','prosciutto',
+  'tartufo','nduja','burrata','figues',
+  'bianca','salmone','spinaci','funghi'
+]);
 
-  onValue(ref(db, 'orders'), (snapshot) => {
-    allOrders = Object.values(snapshot.val() || {});
-    renderAll();
-  });
-
-  const MAX_PER_SLOT = 10;
-  const REFRESH_INTERVAL = 30000; // 30s
-
-  const PIZZA_IDS = new Set([
-    'burrata_gold',
-    'margherita','marinara','napoli','quattro_stagioni','diavola','prosciutto',
-    'tartufo','nduja','burrata','figues',
-    'bianca','salmone','spinaci','funghi'
-  ]);
-
-  function generateSlots() {
-    const slots = [];
-    for (let h = 18; h <= 21; h++) {
-      for (let m = 0; m < 60; m += 15) {
-        if (h === 21 && m > 0) break;
-        slots.push(`${h}h${m === 0 ? '00' : m}`);
-      }
+function generateSlots() {
+  const slots = [];
+  for (let h = 18; h <= 21; h++) {
+    for (let m = 0; m < 60; m += 15) {
+      if (h === 21 && m > 0) break;
+      slots.push(`${h}h${m === 0 ? '00' : m}`);
     }
-    return slots;
   }
-  const ALL_SLOTS = generateSlots();
+  return slots;
+}
+const ALL_SLOTS = generateSlots();
 
+let allOrdersRaw = {}; // { firebaseKey: orderObj }
+let allOrders    = []; // array with .fbKey attached
+let knownIds     = new Set();
+let activeFilter = 'all';
+let currentView  = 'list';
 
-  function getPizzasForSlot(orders, slot) {
-    return orders
-      .filter(o => o.heure === slot)
-      .reduce((t, o) => t + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((s, i) => s + i.qty, 0), 0);
+// Real-time listener
+onValue(ref(db, 'orders'), (snapshot) => {
+  allOrdersRaw = snapshot.val() || {};
+  allOrders = Object.entries(allOrdersRaw).map(([k, v]) => ({ ...v, fbKey: k }));
+  renderAll();
+});
+
+function getPizzasForSlot(orders, slot) {
+  return orders
+    .filter(o => o.heure === slot)
+    .reduce((t, o) => t + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((s, i) => s + i.qty, 0), 0);
+}
+
+function renderAll() {
+  const orders = allOrders;
+  const newIds = new Set(orders.map(o => String(o.id)));
+  const freshIds = new Set([...newIds].filter(id => !knownIds.has(id)));
+  if (knownIds.size > 0 && freshIds.size > 0) {
+    showToast(`🍕 ${freshIds.size} nouvelle${freshIds.size > 1 ? 's' : ''} commande${freshIds.size > 1 ? 's' : ''} !`);
+  }
+  knownIds = newIds;
+
+  renderKPIs(orders);
+  renderSlots(orders);
+  if (currentView === 'list') renderTable(orders, freshIds);
+  else renderKanban(orders, freshIds);
+
+  document.getElementById('refresh-info').textContent =
+    `Dernière actualisation : ${new Date().toLocaleTimeString('fr-FR')} — Temps réel Firebase`;
+}
+
+// ── KPIs ──
+function renderKPIs(orders) {
+  const total     = orders.reduce((s, o) => s + parseFloat(o.total || 0), 0);
+  const pizzaCount= orders.reduce((s, o) => s + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((ss, i) => ss + i.qty, 0), 0);
+  const done      = orders.filter(o => o.done).length;
+  const paid      = orders.filter(o => o.paid).length;
+  const paidAmt   = orders.filter(o => o.paid).reduce((s, o) => s + parseFloat(o.total || 0), 0);
+
+  document.getElementById('kpi-row').innerHTML = `
+    <div class="kpi-card">
+      <span class="kpi-label">Commandes</span>
+      <span class="kpi-value">${orders.length}</span>
+      <span class="kpi-sub">ce soir</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Pizzas</span>
+      <span class="kpi-value">${pizzaCount}</span>
+      <span class="kpi-sub">à préparer</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Chiffre d'affaires</span>
+      <span class="kpi-value">${total.toFixed(0)}€</span>
+      <span class="kpi-sub">${paidAmt.toFixed(2).replace('.',',')} € encaissé</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Faites</span>
+      <span class="kpi-value" style="color:var(--green)">${done}</span>
+      <span class="kpi-sub">${orders.length - done} en attente</span>
+    </div>
+    <div class="kpi-card">
+      <span class="kpi-label">Payées</span>
+      <span class="kpi-value" style="color:var(--blue)">${paid}</span>
+      <span class="kpi-sub">${orders.length - paid} non payées</span>
+    </div>
+  `;
+}
+
+// ── SLOTS ──
+function renderSlots(orders) {
+  document.getElementById('slots-grid').innerHTML = ALL_SLOTS.map(slot => {
+    const used  = getPizzasForSlot(orders, slot);
+    const cnt   = orders.filter(o => o.heure === slot).length;
+    const pct   = Math.min(100, Math.round((used / MAX_PER_SLOT) * 100));
+    const color = used >= MAX_PER_SLOT ? 'var(--red)' : used >= 7 ? 'var(--gold)' : used > 0 ? 'var(--green)' : 'rgba(255,255,255,0.15)';
+    const sel   = (activeFilter === slot) ? 'selected' : '';
+    return `
+      <div class="slot-pill ${sel}" style="border-color:${used>0?color+'40':'rgba(200,148,58,0.15)'}" onclick="setFilter('${slot}')">
+        <span class="slot-time" style="color:${color}">${slot}</span>
+        <span class="slot-count" style="color:${color}">${cnt} cmd · ${used}/${MAX_PER_SLOT} 🍕</span>
+        <div class="slot-bar-wrap"><div class="slot-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      </div>`;
+  }).join('');
+}
+
+// ── TOGGLE STATUS ──
+async function toggleStatus(fbKey, field) {
+  const order = allOrdersRaw[fbKey];
+  if (!order) return;
+  const newVal = !order[field];
+  await update(ref(db, `orders/${fbKey}`), { [field]: newVal });
+  showToast(field === 'done'
+    ? (newVal ? '✅ Commande marquée FAITE' : '↩ Commande remise en attente')
+    : (newVal ? '💳 Commande marquée PAYÉE' : '↩ Paiement annulé')
+  );
+}
+window.toggleStatus = toggleStatus;
+
+// ── RENDER STATUS BADGES ──
+function statusHTML(fbKey, order, compact = false) {
+  const doneClass  = order.done  ? 'toggle-fait-on'  : 'toggle-fait-off';
+  const payeClass  = order.paid  ? 'toggle-paye-on'  : 'toggle-paye-off';
+  const doneLabel  = order.done  ? '✓ Fait'   : '✗ À faire';
+  const payeLabel  = order.paid  ? '✓ Payé'   : '€ Non payé';
+  return `
+    <div class="${compact ? 'kanban-statuses' : 'status-cell'}">
+      <div class="status-toggle ${doneClass}" onclick="toggleStatus('${fbKey}','done')">
+        <span class="dot"></span>${doneLabel}
+      </div>
+      <div class="status-toggle ${payeClass}" onclick="toggleStatus('${fbKey}','paid')">
+        <span class="dot"></span>${payeLabel}
+      </div>
+    </div>`;
+}
+
+// ── TABLE VIEW ──
+function renderTable(orders, freshIds = new Set()) {
+  const usedSlots = [...new Set(orders.map(o => o.heure))].sort();
+  document.getElementById('filter-row').innerHTML = [
+    `<button class="filter-btn ${activeFilter==='all'?'active':''}" onclick="setFilter('all')">Tous (${orders.length})</button>`,
+    ...usedSlots.map(s => {
+      const cnt = orders.filter(o => o.heure === s).length;
+      return `<button class="filter-btn ${activeFilter===s?'active':''}" onclick="setFilter('${s}')">${s} (${cnt})</button>`;
+    }),
+    `<button class="filter-btn ${activeFilter==='todo'?'active':''}" onclick="setFilter('todo')">⏳ À faire</button>`,
+    `<button class="filter-btn ${activeFilter==='unpaid'?'active':''}" onclick="setFilter('unpaid')">€ Non payées</button>`,
+  ].join('');
+
+  let filtered;
+  if      (activeFilter === 'all')    filtered = orders;
+  else if (activeFilter === 'todo')   filtered = orders.filter(o => !o.done);
+  else if (activeFilter === 'unpaid') filtered = orders.filter(o => !o.paid);
+  else                                filtered = orders.filter(o => o.heure === activeFilter);
+
+  const sorted = [...filtered].sort((a, b) => a.heure.localeCompare(b.heure));
+
+  document.getElementById('orders-meta').textContent =
+    `${sorted.length} commande${sorted.length !== 1 ? 's' : ''} affichée${sorted.length !== 1 ? 's' : ''}`;
+
+  const container = document.getElementById('table-container');
+  if (sorted.length === 0) {
+    container.innerHTML = `<div class="empty-state"><span class="emoji">🍕</span>Aucune commande ici pour l'instant.</div>`;
+    return;
   }
 
-  let activeFilter = 'all';
-  let knownIds = new Set();
+  container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Créneau</th>
+          <th>Client</th>
+          <th>Téléphone</th>
+          <th>Commande</th>
+          <th>Total</th>
+          <th>Statut</th>
+          <th>Notes</th>
+          <th>Passée le</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${sorted.map(o => {
+          const isNew = freshIds.has(String(o.id));
+          const rowClass = [isNew ? 'order-row-new' : '', o.done ? 'is-done' : ''].filter(Boolean).join(' ');
+          return `
+            <tr class="${rowClass}" style="${o.done ? 'opacity:0.55' : ''}">
+              <td>
+                <span class="tag tag-heure">${o.heure}</span>
+                ${isNew ? '<span class="tag tag-new" style="margin-left:0.3rem">NEW</span>' : ''}
+              </td>
+              <td><strong>${o.prenom} ${o.nom}</strong></td>
+              <td><a href="tel:${o.tel.replace(/\s/g,'')}" style="color:var(--cream);text-decoration:none;opacity:0.85">${o.tel}</a></td>
+              <td>
+                <div class="items-list">
+                  ${o.items.map(i => `<span class="item-line"><span class="item-qty">${i.qty}×</span>${i.name}</span>`).join('')}
+                </div>
+              </td>
+              <td class="total-cell">${o.total} €</td>
+              <td>${statusHTML(o.fbKey, o)}</td>
+              <td class="notes-cell">${o.notes || '—'}</td>
+              <td class="date-cell">${o.date}</td>
+            </tr>`;
+        }).join('')}
+      </tbody>
+    </table>`;
+}
 
-  function renderAll() {
-    const orders = allOrders;
+// ── KANBAN VIEW ──
+function renderKanban(orders, freshIds = new Set()) {
+  const board = document.getElementById('kanban-board');
+  const activeSlots = ALL_SLOTS.filter(s => orders.some(o => o.heure === s));
 
-    // Track new orders
-    const newIds = new Set(orders.map(o => String(o.id)));
-    const freshIds = new Set([...newIds].filter(id => !knownIds.has(id)));
-    if (knownIds.size > 0 && freshIds.size > 0) {
-      showToast(`🍕 ${freshIds.size} nouvelle${freshIds.size > 1 ? 's' : ''} commande${freshIds.size > 1 ? 's' : ''} !`);
-    }
-    knownIds = newIds;
-
-    renderKPIs(orders);
-    renderSlots(orders);
-    renderTable(orders, freshIds);
-
-    const now = new Date();
-    document.getElementById('refresh-info').textContent =
-      `Dernière actualisation : ${now.toLocaleTimeString('fr-FR')} — Auto-refresh toutes les 30s`;
+  if (activeSlots.length === 0) {
+    board.innerHTML = `<div class="empty-state" style="padding:4rem 2rem;opacity:0.35"><span class="emoji">🍕</span>Aucune commande pour ce service.</div>`;
+    return;
   }
 
-  function renderKPIs(orders) {
-    const total = orders.reduce((s, o) => s + parseFloat(o.total || 0), 0);
-    const pizzaCount = orders.reduce((s, o) =>
-      s + o.items.filter(i => PIZZA_IDS.has(i.id)).reduce((ss, i) => ss + i.qty, 0), 0);
-    const slotsUsed = ALL_SLOTS.filter(s => getPizzasForSlot(orders, s) > 0).length;
+  board.innerHTML = activeSlots.map(slot => {
+    const slotOrders = [...orders.filter(o => o.heure === slot)].sort((a, b) => a.id - b.id);
+    const pizzas     = getPizzasForSlot(orders, slot);
+    const done       = slotOrders.filter(o => o.done).length;
+    const pct        = slotOrders.length ? Math.round((done / slotOrders.length) * 100) : 0;
+    const barColor   = pct === 100 ? 'var(--green)' : pct > 50 ? 'var(--gold)' : 'var(--terra)';
 
-    document.getElementById('kpi-row').innerHTML = `
-      <div class="kpi-card">
-        <span class="kpi-label">Commandes</span>
-        <span class="kpi-value">${orders.length}</span>
-        <span class="kpi-sub">ce soir</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Pizzas totales</span>
-        <span class="kpi-value">${pizzaCount}</span>
-        <span class="kpi-sub">à préparer</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Chiffre d'affaires</span>
-        <span class="kpi-value">${total.toFixed(0)}€</span>
-        <span class="kpi-sub">${total.toFixed(2).replace('.', ',')} €</span>
-      </div>
-      <div class="kpi-card">
-        <span class="kpi-label">Créneaux actifs</span>
-        <span class="kpi-value">${slotsUsed}</span>
-        <span class="kpi-sub">sur ${ALL_SLOTS.length} possibles</span>
-      </div>
-    `;
-  }
-
-  function renderSlots(orders) {
-    document.getElementById('slots-grid').innerHTML = ALL_SLOTS.map(slot => {
-      const used = getPizzasForSlot(orders, slot);
-      const pct  = Math.min(100, Math.round((used / MAX_PER_SLOT) * 100));
-      const color = used >= MAX_PER_SLOT ? 'var(--red)' : used >= 7 ? 'var(--gold)' : used > 0 ? 'var(--green)' : 'rgba(255,255,255,0.15)';
+    const cards = slotOrders.map(o => {
+      const isNew = freshIds.has(String(o.id));
       return `
-        <div class="slot-pill" style="border-color:${color}40">
-          <span class="slot-time" style="color:${color}">${slot}</span>
-          <span class="slot-count" style="color:${color}">${used}/${MAX_PER_SLOT}</span>
-          <div class="slot-bar-wrap">
-            <div class="slot-bar-fill" style="width:${pct}%;background:${color}"></div>
+        <div class="kanban-card ${o.done ? 'is-done' : ''} ${isNew ? 'is-new' : ''}">
+          <div class="kanban-card-top">
+            <div>
+              <div class="kanban-client-name">${o.prenom} ${o.nom}</div>
+              <div class="kanban-client-tel">
+                <a href="tel:${o.tel.replace(/\s/g,'')}" style="color:inherit;text-decoration:none">${o.tel}</a>
+              </div>
+            </div>
+            ${isNew ? '<span class="tag tag-new">NEW</span>' : ''}
+          </div>
+          <div class="kanban-items">
+            ${o.items.map(i => `<div class="kanban-item"><span class="kanban-item-qty">${i.qty}×</span><span>${i.name}</span></div>`).join('')}
+          </div>
+          ${o.notes ? `<div class="kanban-notes">📝 ${o.notes}</div>` : ''}
+          <div class="kanban-card-footer" style="margin-top:0.7rem">
+            <span class="kanban-total">${o.total} €</span>
+            ${statusHTML(o.fbKey, o, true)}
           </div>
         </div>`;
-    }).join('');
-  }
+    }).join('') || `<div class="kanban-empty">Aucune commande</div>`;
 
-  function renderTable(orders, freshIds = new Set()) {
-    // Build filter buttons from unique slots used
-    const usedSlots = [...new Set(orders.map(o => o.heure))].sort();
-    const filterRow = document.getElementById('filter-row');
-    filterRow.innerHTML = [
-      `<button class="filter-btn ${activeFilter === 'all' ? 'active' : ''}" onclick="setFilter('all')">Tous (${orders.length})</button>`,
-      ...usedSlots.map(s => {
-        const cnt = orders.filter(o => o.heure === s).length;
-        return `<button class="filter-btn ${activeFilter === s ? 'active' : ''}" onclick="setFilter('${s}')">${s} (${cnt})</button>`;
-      })
-    ].join('');
-
-    const filtered = activeFilter === 'all' ? orders : orders.filter(o => o.heure === activeFilter);
-    const sorted = [...filtered].sort((a, b) => a.heure.localeCompare(b.heure));
-
-    document.getElementById('orders-meta').textContent =
-      activeFilter === 'all'
-        ? `${orders.length} commande${orders.length !== 1 ? 's' : ''} au total`
-        : `${filtered.length} commande${filtered.length !== 1 ? 's' : ''} pour le créneau ${activeFilter}`;
-
-    const container = document.getElementById('table-container');
-
-    if (sorted.length === 0) {
-      container.innerHTML = `<div class="empty-state">
-        <span class="emoji">🍕</span>
-        Aucune commande pour l'instant.<br>Le site client est ouvert dans l'autre onglet ?
+    return `
+      <div class="kanban-col">
+        <div class="kanban-col-header">
+          <span class="kanban-slot-name" style="color:${slotOrders.length?'var(--gold)':'rgba(200,148,58,0.4)'}">${slot}</span>
+          <div class="kanban-col-meta">
+            <span class="kanban-pizza-count">${slotOrders.length} cmd · ${pizzas} 🍕</span>
+            <div class="kanban-progress" style="color:${barColor}">
+              ${done}/${slotOrders.length} faites
+              <div class="kanban-progress-bar">
+                <div class="kanban-progress-fill" style="width:${pct}%;background:${barColor}"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="kanban-cards">${cards}</div>
       </div>`;
-      return;
-    }
+  }).join('');
+}
 
-    container.innerHTML = `
-      <table>
-        <thead>
-          <tr>
-            <th>Créneau</th>
-            <th>Client</th>
-            <th>Téléphone</th>
-            <th>Commande</th>
-            <th>Total</th>
-            <th>Notes</th>
-            <th>Passée le</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${sorted.map(o => {
-            const isNew = freshIds.has(String(o.id));
-            return `
-              <tr class="${isNew ? 'order-row-new' : ''}">
-                <td>
-                  <span class="tag tag-heure">${o.heure}</span>
-                  ${isNew ? '<span class="tag tag-new" style="margin-left:0.4rem">NEW</span>' : ''}
-                </td>
-                <td><strong>${o.prenom} ${o.nom}</strong></td>
-                <td>
-                  <a href="tel:${o.tel.replace(/\s/g,'')}" style="color:var(--cream);text-decoration:none;opacity:0.85">
-                    ${o.tel}
-                  </a>
-                </td>
-                <td>
-                  <div class="items-list">
-                    ${o.items.map(i => `<span class="item-line"><span class="item-qty">${i.qty}×</span>${i.name}</span>`).join('')}
-                  </div>
-                </td>
-                <td class="total-cell">${o.total} €</td>
-                <td class="notes-cell">${o.notes || '—'}</td>
-                <td class="date-cell">${o.date}</td>
-              </tr>`;
-          }).join('')}
-        </tbody>
-      </table>`;
-  }
+// ── CONTROLS ──
+function setFilter(val) {
+  activeFilter = val;
+  renderAll();
+}
+function setView(v) {
+  currentView = v;
+  document.getElementById('view-list').style.display   = v === 'list'   ? 'block' : 'none';
+  document.getElementById('view-kanban').style.display = v === 'kanban' ? 'block' : 'none';
+  document.getElementById('btn-list').classList.toggle('active', v === 'list');
+  document.getElementById('btn-kanban').classList.toggle('active', v === 'kanban');
+  renderAll();
+}
+function refresh() { renderAll(); showToast('✓ Actualisé'); }
 
-  function setFilter(val) {
-    activeFilter = val;
-    renderAll();
-  }
+function exportCSV() {
+  if (allOrders.length === 0) { showToast('Aucune commande à exporter'); return; }
+  const headers = ['ID','Date','Créneau','Prénom','Nom','Téléphone','Commande','Total (€)','Fait','Payé','Notes'];
+  const rows = allOrders.map(o => [
+    o.id, `"${o.date}"`, o.heure, o.prenom, o.nom, o.tel,
+    `"${o.items.map(i => `${i.qty}x ${i.name}`).join(' | ')}"`,
+    o.total, o.done ? 'Oui' : 'Non', o.paid ? 'Oui' : 'Non',
+    `"${(o.notes||'').replace(/"/g,'\\"')}"`
+  ]);
+  const csv  = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+  const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href: url, download: `commandes_400C_${new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')}.csv` });
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('⬇ Export CSV lancé');
+}
 
-  function refresh() {
-    renderAll();
-    showToast('✓ Actualisé');
-  }
+async function clearAll() {
+  if (!confirm('⚠️ Effacer TOUTES les commandes ?\nCette action est irréversible.')) return;
+  await set(ref(db, 'orders'), null);
+  showToast('🗑 Commandes effacées');
+}
 
-  function exportCSV() {
-    const orders = allOrders;
-    if (orders.length === 0) { showToast('Aucune commande à exporter'); return; }
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
 
-    const headers = ['ID','Date commande','Créneau','Prénom','Nom','Téléphone','Commande','Total (€)','Notes'];
-    const rows = orders.map(o => [
-      o.id,
-      `"${o.date}"`,
-      o.heure,
-      o.prenom,
-      o.nom,
-      o.tel,
-      `"${o.items.map(i => `${i.qty}x ${i.name}`).join(' | ')}"`,
-      o.total,
-      `"${(o.notes||'').replace(/"/g,'\\"')}"`
-    ]);
-
-    const csv = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
-    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url;
-    a.download = `commandes_400C_${new Date().toLocaleDateString('fr-FR').replace(/\//g,'-')}.csv`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('⬇ Export CSV lancé');
-  }
-
-  async function clearAll() {
-    if (!confirm('⚠️ Effacer TOUTES les commandes ?\nCette action est irréversible.')) return;
-    await set(ref(db, 'orders'), null);
-    showToast('🗑 Commandes effacées');
-  }
-
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 2500);
-  }
-
-  // Expose aux onclick HTML (nécessaire avec type="module")
-  window.refresh    = refresh;
-  window.exportCSV  = exportCSV;
-  window.clearAll   = clearAll;
-  window.setFilter  = setFilter;
-
-  // Firebase onValue gère le temps réel automatiquement
+window.refresh       = refresh;
+window.exportCSV     = exportCSV;
+window.clearAll      = clearAll;
+window.setFilter     = setFilter;
+window.setView       = setView;
 </script>
 </body>
 </html>
